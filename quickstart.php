@@ -33,8 +33,8 @@ class quickstart
         $this->addMainClass();
         $this->addMainTest();
         $this->removeGarbageFiles();
-        // $this->fixComposerFile();
-        // $this->doGulpSetup();
+        $this->fixComposerFile();
+        $this->doGulpSetup();
     }
 
     protected function copyDir($src, $dst)
@@ -53,8 +53,13 @@ class quickstart
         closedir($dir);
     }
 
-    protected function replace($search, $src, $dest = null)
+    protected function replace($src, $dest = null)
     {
+        $search = [
+            '{{ $project_path }}' => $this->dir,
+            '{{ $project }}'      => $this->project,
+        ];
+
         $dest = $dest ?: $src;
 
         $content = file_get_contents($src);
@@ -66,33 +71,19 @@ class quickstart
 
     protected function fixComposerFile()
     {
-        $search = [
-            '{{ $project_path }}' => $this->dir,
-            '{{ $project }}'      => $this->project,
-        ];
-
-        $content = $this->replace($search, "{$this->path}/composer.json");
+        $content = $this->replace("{$this->path}/composer.json");
 
         exec("cd {$this->path} && composer install");
     }
 
     protected function fixReadMe()
     {
-        $search = [
-            '{{ $project_path }}' => $this->dir,
-            '{{ $project }}'      => $this->project,
-        ];
-
-        $content = $this->replace($search, "{$this->path}/README.md");
+        $content = $this->replace("{$this->path}/README.md");
     }
 
     protected function fixFunctional()
     {
-        $search = [
-			'{{ $project }}' => $this->project,
-        ];
-
-        $content = $this->replace($search, "{$this->path}/functional/index.php");
+        $content = $this->replace("{$this->path}/functional/index.php");
     }
 
     protected function doGulpSetup()
@@ -102,35 +93,22 @@ class quickstart
 
     protected function addMainClass()
     {
-        $search = [
-            '{{ $project }}' => $this->project,
-        ];
-
-        $content = $this->replace($search, "{$this->src}/MainClass.php");
+        $content = $this->replace("{$this->src}/MainClass.php");
 
         rename("{$this->src}/MainClass.php", "{$this->src}/{$this->project}.php");
     }
 
     protected function addMainTest()
     {
-        $search = [
-            '{{ $project }}' => $this->project,
-        ];
+        $content = $this->replace("{$this->path}/tests/TestBase.php");
 
-        $content = $this->replace($search, "{$this->path}/tests/TestBase.php");
-
-        $search = [
-            '{{ $project }}' => $this->project,
-        ];
-
-        $content = $this->replace($search, "{$this->path}/tests/MainTest.php");
+        $content = $this->replace("{$this->path}/tests/MainTest.php");
 
         rename("{$this->path}/tests/MainTest.php", "{$this->path}/tests/{$this->project}Test.php");
     }
 
     protected function removeGarbageFiles()
     {
-        unlink("{$this->path}/travis.yml");
         unlink("{$this->path}/quickstart.php");
         exec("cd {$this->path} && rm -R .git");
     }
