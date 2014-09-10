@@ -1,7 +1,7 @@
 <?php
 
-namespace {{ $project }}\{{ $project }};
+namespace {{ $project }};
 
 class {{ $project }} {
-	
+
 }

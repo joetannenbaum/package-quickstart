@@ -2,7 +2,7 @@
 
 namespace {{ $project }}\Test;
 
-class {{ $project }}Test extends TestBase
+class {{ $project }}Test extends TestCase
 {
 
 }
