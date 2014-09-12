@@ -1,5 +1,7 @@
 # {{ $project }}
 
+<!--
+
 [![Latest Version](https://img.shields.io/github/release/joetannenbaum/{{ $project_path }}.svg?style=flat)](https://github.com/joetannenbaum/{{ $project_path }}/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE.md)
 [![Build Status](https://img.shields.io/travis/joetannenbaum/{{ $project_path }}/master.svg?style=flat)](https://travis-ci.org/joetannenbaum/{{ $project_path }})
@@ -10,6 +12,7 @@
 ## Table of Contents
 
 + [Installation](#installation)
++ [Basic Usage](#basic-usage)
 
 ## Installation
 
@@ -22,3 +25,14 @@ Using [composer](https://packagist.org/packages/joetannenbaum/{{ $project_path }
     }
 }
 ```
+
+## Basic Usage
+
+Fire it up like so:
+
+```php
+require_once 'vendor/autoload.php';
+
+${{ $project_path }} = new {{ $project }}\{{ $project }}();
+```
+-->
